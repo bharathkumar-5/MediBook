@@ -1,6 +1,3 @@
-Here’s an **excellent README file** for your **Doctor Appointment Booking System** project. It includes **icons**, **detailed descriptions**, and a **tech stack** section. This README is designed to make your project stand out and provide all necessary information to users and contributors.
-
----
 
 # **Doctor Appointment Booking System** 🏥
 
@@ -148,8 +145,4 @@ Check out the live demo of the project: [Live Demo](https://your-demo-link.com)
 
 ---
 
-Made with ❤️ by **Your Name** 🚀
-
----
-
-This README file is designed to be **comprehensive**, **visually appealing**, and **easy to understand**. It includes all the necessary sections to help users and contributors get started with your project. Let me know if you need further enhancements! 🚀
+Made with ❤️ by Bharath Kumar🚀
