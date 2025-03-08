@@ -1,64 +1,54 @@
 import React, { useState, useEffect } from 'react';
 
 const AppointmentModal = ({
-  appointment,
+  doctor,
   onClose,
-  onSave,
-  onDelete,
-  isEditing,
+  onConfirm,
 }) => {
-  const [title, setTitle] = useState('');
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+
+  // Check if the user is logged in as a patient
+  const isPatientLoggedIn = localStorage.getItem('isPatientLoggedIn');
 
   useEffect(() => {
-    if (appointment) {
-      setTitle(appointment.title);
-      setStart(new Date(appointment.start));
-      setEnd(new Date(appointment.end));
+    // If the user is not logged in, close the modal
+    if (!isPatientLoggedIn) {
+      onClose();
+      alert('Please login as a patient to book an appointment.');
     }
-  }, [appointment]);
+  }, [isPatientLoggedIn, onClose]);
 
-  const handleSave = () => {
-    const updatedAppointment = {
-      ...appointment,
-      title,
-      start,
-      end,
-    };
-    onSave(updatedAppointment);
+  const handleConfirm = () => {
+    if (!date || !time) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    onConfirm({ doctor, date, time });
   };
+
+  if (!isPatientLoggedIn) {
+    return null; // Do not render the modal if the user is not logged in
+  }
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <h3>{isEditing ? 'Edit Appointment' : 'Add Appointment'}</h3>
+        <h3>Book Appointment with {doctor.name}</h3>
         <input
-          type="text"
-          placeholder="Appointment Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           required
         />
-        <label>Start Time</label>
         <input
-          type="datetime-local"
-          value={start.toISOString().slice(0, 16)}
-          onChange={(e) => setStart(new Date(e.target.value))}
-          required
-        />
-        <label>End Time</label>
-        <input
-          type="datetime-local"
-          value={end.toISOString().slice(0, 16)}
-          onChange={(e) => setEnd(new Date(e.target.value))}
+          type="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
           required
         />
         <div className="modal-actions">
-          <button onClick={handleSave}>{isEditing ? 'Update' : 'Save'}</button>
-          {isEditing && (
-            <button onClick={() => onDelete(appointment.id)}>Delete</button>
-          )}
+          <button onClick={handleConfirm}>Confirm</button>
           <button onClick={onClose}>Cancel</button>
         </div>
       </div>

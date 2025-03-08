@@ -20,8 +20,10 @@ const DoctorLogin = () => {
     e.preventDefault();
     if (isLogin) {
       // Simulate login
-      if (formData.email === 'doctor@example.com' && formData.password === 'password') {
+      if (formData.email === 'doctor@gmail.com' && formData.password === 'password') {
         localStorage.setItem('isDoctorLoggedIn', true);
+        localStorage.setItem('doctorEmail', formData.email); // Store doctor's email
+        alert('Login successful!');
         navigate('/doctor-dashboard');
       } else {
         setError('Invalid email or password');
@@ -30,6 +32,8 @@ const DoctorLogin = () => {
       // Simulate signup
       if (formData.name && formData.email && formData.password) {
         localStorage.setItem('isDoctorLoggedIn', true);
+        localStorage.setItem('doctorEmail', formData.email); // Store doctor's email
+        alert('Signup successful!');
         navigate('/doctor-dashboard');
       } else {
         setError('Please fill all fields');
@@ -40,21 +44,7 @@ const DoctorLogin = () => {
   return (
     <div className="doctor-login">
       <div className="auth-container">
-        <div className="auth-tabs">
-          <button
-            className={isLogin ? 'active' : ''}
-            onClick={() => setIsLogin(true)}
-          >
-            Login
-          </button>
-          <button
-            className={!isLogin ? 'active' : ''}
-            onClick={() => setIsLogin(false)}
-          >
-            Sign Up
-          </button>
-        </div>
-
+        <h2>Doctor Login</h2>
         <form onSubmit={handleSubmit}>
           {!isLogin && (
             <input
@@ -97,24 +87,42 @@ const DoctorLogin = () => {
       </div>
 
       <div className="doctor-content">
-        <h2>Why Join MediBook?</h2>
+        <h2>Why Join MediBook as a Doctor?</h2>
         <div className="features-list">
           <div className="feature-card">
-            <h3>Manage Appointments</h3>
+            <h3>📅 Manage Appointments</h3>
             <p>
               Easily manage your appointments and view your schedule in one place.
             </p>
           </div>
           <div className="feature-card">
-            <h3>Access Patient Records</h3>
+            <h3>📂 Access Patient Records</h3>
             <p>
               Securely access and update patient records from anywhere.
             </p>
           </div>
           <div className="feature-card">
-            <h3>Real-Time Notifications</h3>
+            <h3>🔔 Real-Time Notifications</h3>
             <p>
               Get instant notifications for new appointments and updates.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>💼 Grow Your Practice</h3>
+            <p>
+              Reach more patients and grow your practice with our platform.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>📊 Analytics & Reports</h3>
+            <p>
+              Get detailed analytics and reports to track your performance.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>🛠️ Easy-to-Use Tools</h3>
+            <p>
+              Use our intuitive tools to manage your practice efficiently.
             </p>
           </div>
         </div>

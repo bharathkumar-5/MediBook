@@ -212,8 +212,13 @@ const Home = () => {
   };
 
   const handleBookAppointment = (doctor) => {
-    setSelectedDoctor(doctor);
-    setShowModal(true);
+    const isPatientLoggedIn = localStorage.getItem('isPatientLoggedIn');
+    if (isPatientLoggedIn) {
+      setSelectedDoctor(doctor);
+      setShowModal(true);
+    } else {
+      alert('Please login as a patient to book an appointment.');
+    }
   };
 
   const handleConfirmAppointment = (appointment) => {

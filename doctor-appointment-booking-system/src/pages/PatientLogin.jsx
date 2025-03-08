@@ -20,8 +20,10 @@ const PatientLogin = () => {
     e.preventDefault();
     if (isLogin) {
       // Simulate login
-      if (formData.email === 'patient@example.com' && formData.password === 'password') {
+      if (formData.email === 'patient@gmail.com' && formData.password === 'password') {
         localStorage.setItem('isPatientLoggedIn', true);
+        localStorage.setItem('patientEmail', formData.email); // Store patient's email
+        alert('Login successful!');
         navigate('/');
       } else {
         setError('Invalid email or password');
@@ -30,6 +32,8 @@ const PatientLogin = () => {
       // Simulate signup
       if (formData.name && formData.email && formData.password) {
         localStorage.setItem('isPatientLoggedIn', true);
+        localStorage.setItem('patientEmail', formData.email); // Store patient's email
+        alert('Signup successful!');
         navigate('/');
       } else {
         setError('Please fill all fields');
@@ -40,21 +44,7 @@ const PatientLogin = () => {
   return (
     <div className="patient-login">
       <div className="auth-container">
-        <div className="auth-tabs">
-          <button
-            className={isLogin ? 'active' : ''}
-            onClick={() => setIsLogin(true)}
-          >
-            Login
-          </button>
-          <button
-            className={!isLogin ? 'active' : ''}
-            onClick={() => setIsLogin(false)}
-          >
-            Sign Up
-          </button>
-        </div>
-
+        <h2>Patient Login</h2>
         <form onSubmit={handleSubmit}>
           {!isLogin && (
             <input
@@ -97,24 +87,42 @@ const PatientLogin = () => {
       </div>
 
       <div className="patient-content">
-        <h2>Why Join MediBook?</h2>
+        <h2>Why Join MediBook as a Patient?</h2>
         <div className="features-list">
           <div className="feature-card">
-            <h3>Book Appointments Easily</h3>
+            <h3>👩‍⚕️ Find Top Doctors</h3>
             <p>
-              Schedule appointments with top doctors in just a few clicks.
+              Connect with the best doctors in your area.
             </p>
           </div>
           <div className="feature-card">
-            <h3>Access Medical Records</h3>
+            <h3>📅 Book Appointments Easily</h3>
+            <p>
+              Schedule appointments with just a few clicks.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>📂 Access Medical Records</h3>
             <p>
               Securely access your medical records anytime, anywhere.
             </p>
           </div>
           <div className="feature-card">
-            <h3>Real-Time Notifications</h3>
+            <h3>🔔 Real-Time Notifications</h3>
             <p>
               Get instant updates about your appointments and health tips.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>💊 Prescription Management</h3>
+            <p>
+              Manage your prescriptions and refill them online.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>🏥 24/7 Support</h3>
+            <p>
+              Get round-the-clock support for all your healthcare needs.
             </p>
           </div>
         </div>
