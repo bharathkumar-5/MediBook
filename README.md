@@ -69,13 +69,52 @@ Follow these steps to set up the project locally:
 ## **Project Structure** 📂
 
 ```
-src/
-├── components/          # Reusable UI components
-├── pages/               # Application pages
-├── context/             # React context for state management
-├── App.jsx              # Main application component
-├── main.jsx             # Entry point
-├── index.css            # Global styles
+Directory structure:
+└── doctor-appointment-booking-system/
+    ├── README.md
+    ├── eslint.config.js
+    ├── index.html
+    ├── package-lock.json
+    ├── package.json
+    ├── vite.config.js
+    ├── .gitignore
+    ├── public/
+    └── src/
+        ├── App.css
+        ├── App.jsx
+        ├── index.css
+        ├── main.jsx
+        ├── assets/
+        ├── components/
+        │   ├── AppointmentDetails.jsx
+        │   ├── AppointmentModal.jsx
+        │   ├── BlogCard.jsx
+        │   ├── CalendarView.jsx
+        │   ├── DoctorList.jsx
+        │   ├── FAQItem.jsx
+        │   ├── Footer.jsx
+        │   ├── Header.jsx
+        │   ├── SearchBar.jsx
+        │   ├── ServiceCard.jsx
+        │   ├── TeamMemberCard.jsx
+        │   └── TestimonialCard.jsx
+        ├── context/
+        │   └── AppContext.jsx
+        └── pages/
+            ├── About.jsx
+            ├── AppointmentsPage.jsx
+            ├── Blog.jsx
+            ├── BlogPost.jsx
+            ├── BookingPage.jsx
+            ├── Contact.jsx
+            ├── DoctorDashboard.jsx
+            ├── DoctorLogin.jsx
+            ├── FAQ.jsx
+            ├── Home.jsx
+            ├── PatientLogin.jsx
+            ├── Services.jsx
+            └── UserDashboard.jsx
+
 ```
 
 ---
