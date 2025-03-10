@@ -3,7 +3,7 @@ import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { toast, ToastContainer } from 'react-toastify';
+import {  ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TailSpin } from 'react-loader-spinner';
 import CustomEvent from '../components/CustomEvent';
