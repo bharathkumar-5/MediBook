@@ -1508,3 +1508,20 @@ body {
   color: white;
   border-color: #3174ad;
 }
+
+.custom-event {
+  padding: 5px;
+  background-color: #3174ad;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.custom-event strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.custom-event p {
+  margin: 2px 0;
+}

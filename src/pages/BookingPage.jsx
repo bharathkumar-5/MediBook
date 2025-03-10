@@ -15,7 +15,17 @@ const BookingPage = () => {
 
   const handleConfirmBooking = (appointment) => {
     const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-    appointments.push(appointment);
+    // Include doctor's name and patient's email in the appointment
+    const newAppointment = {
+      ...appointment,
+      id: Date.now(),
+      doctorName: appointment.doctor.name,
+      patientEmail: appointment.patientEmail,
+      start: new Date(`${appointment.date}T${appointment.time}`),
+      end: new Date(new Date(`${appointment.date}T${appointment.time}`).getTime() + 60 * 60 * 1000), // 1 hour duration
+      title: `Appointment with ${appointment.doctor.name}`,
+    };
+    appointments.push(newAppointment);
     localStorage.setItem('appointments', JSON.stringify(appointments));
     setShowModal(false);
     navigate('/appointments');
@@ -27,7 +37,7 @@ const BookingPage = () => {
       <CalendarView onSelectSlot={handleSelectSlot} />
       {showModal && (
         <AppointmentModal
-          slot={selectedSlot}
+          doctor={selectedSlot?.doctor} // Pass the selected doctor
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmBooking}
         />

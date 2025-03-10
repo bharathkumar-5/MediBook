@@ -17,10 +17,6 @@ const localizer = dateFnsLocalizer({
 });
 
 const CalendarView = ({ onSelectSlot }) => {
-  const handleSelectSlot = (slot) => {
-    onSelectSlot(slot);
-  };
-
   return (
     <div className="calendar">
       <Calendar
@@ -29,7 +25,7 @@ const CalendarView = ({ onSelectSlot }) => {
         startAccessor="start"
         endAccessor="end"
         selectable
-        onSelectSlot={handleSelectSlot}
+        onSelectSlot={onSelectSlot}
         style={{ height: 500 }}
       />
     </div>

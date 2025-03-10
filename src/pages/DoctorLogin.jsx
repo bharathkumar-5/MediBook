@@ -11,6 +11,13 @@ const DoctorLogin = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // Default doctor credentials
+  const defaultDoctors = [
+    { name: 'Dr. John Doe', email: 'doctor1@gmail.com', password: 'password1' },
+    { name: 'Dr. Jane Smith', email: 'doctor2@gmail.com', password: 'password2' },
+    { name: 'Dr. Emily Johnson', email: 'doctor3@gmail.com', password: 'password3' },
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -20,9 +27,13 @@ const DoctorLogin = () => {
     e.preventDefault();
     if (isLogin) {
       // Simulate login
-      if (formData.email === 'doctor@gmail.com' && formData.password === 'password') {
+      const doctor = defaultDoctors.find(
+        (doc) => doc.email === formData.email && doc.password === formData.password
+      );
+      if (doctor) {
         localStorage.setItem('isDoctorLoggedIn', true);
-        localStorage.setItem('doctorEmail', formData.email); // Store doctor's email
+        localStorage.setItem('doctorEmail', doctor.email);
+        localStorage.setItem('doctorName', doctor.name); // Store doctor's name
         alert('Login successful!');
         navigate('/doctor-dashboard');
       } else {
@@ -32,7 +43,8 @@ const DoctorLogin = () => {
       // Simulate signup
       if (formData.name && formData.email && formData.password) {
         localStorage.setItem('isDoctorLoggedIn', true);
-        localStorage.setItem('doctorEmail', formData.email); // Store doctor's email
+        localStorage.setItem('doctorEmail', formData.email);
+        localStorage.setItem('doctorName', formData.name); // Store doctor's name
         alert('Signup successful!');
         navigate('/doctor-dashboard');
       } else {

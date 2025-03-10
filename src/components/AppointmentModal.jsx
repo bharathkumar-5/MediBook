@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-const AppointmentModal = ({
-  doctor,
-  onClose,
-  onConfirm,
-}) => {
+const AppointmentModal = ({ doctor, onClose, onConfirm }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
 
   // Check if the user is logged in as a patient
   const isPatientLoggedIn = localStorage.getItem('isPatientLoggedIn');
+  const patientEmail = localStorage.getItem('patientEmail'); // Get patient's email
 
   useEffect(() => {
     // If the user is not logged in, close the modal
@@ -24,7 +21,8 @@ const AppointmentModal = ({
       alert('Please fill in all fields.');
       return;
     }
-    onConfirm({ doctor, date, time });
+    // Include doctor's name and patient's email in the appointment
+    onConfirm({ doctor, date, time, patientEmail });
   };
 
   if (!isPatientLoggedIn) {

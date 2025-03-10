@@ -222,6 +222,17 @@ const Home = () => {
   };
 
   const handleConfirmAppointment = (appointment) => {
+    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+    const newAppointment = {
+      ...appointment,
+      id: Date.now(),
+      doctorName: appointment.doctor.name,
+      patientEmail: localStorage.getItem('patientEmail'),
+      start: new Date(`${appointment.date}T${appointment.time}`),
+      end: new Date(new Date(`${appointment.date}T${appointment.time}`).getTime() + 60 * 60 * 1000), // 1 hour duration
+    };
+    appointments.push(newAppointment);
+    localStorage.setItem('appointments', JSON.stringify(appointments));
     alert(
       `Appointment booked with ${appointment.doctor.name} on ${appointment.date} at ${appointment.time}`
     );

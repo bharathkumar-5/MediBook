@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay } from "date-fns";
-import enUS from "date-fns/locale/en-US";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { TailSpin } from "react-loader-spinner";
-import AppointmentModal from "../components/AppointmentModal";
-// Import custom CSS
+import React, { useState, useEffect } from 'react';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
+import enUS from 'date-fns/locale/en-US';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { TailSpin } from 'react-loader-spinner';
+import CustomEvent from '../components/CustomEvent';
 
 const locales = {
-  "en-US": enUS,
+  'en-US': enUS,
 };
 
 const localizer = dateFnsLocalizer({
@@ -23,90 +22,25 @@ const localizer = dateFnsLocalizer({
 
 const DoctorDashboard = () => {
   const [appointments, setAppointments] = useState([]);
-  const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [view, setView] = useState("month"); // Default view is "month"
+  const [view, setView] = useState('month');
+
+  // Get the logged-in doctor's name
+  const doctorName = localStorage.getItem('doctorName'); // Assume this is set during login
 
   // Load appointments from localStorage on component mount
   useEffect(() => {
     setIsLoading(true);
-    const savedAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    const savedAppointments = JSON.parse(localStorage.getItem('appointments')) || [];
+    // Filter appointments for the logged-in doctor
+    const doctorAppointments = savedAppointments.filter(
+      (app) => app.doctorName === doctorName
+    );
     setTimeout(() => {
-      setAppointments(savedAppointments);
+      setAppointments(doctorAppointments);
       setIsLoading(false);
-    }, 1000); // Simulate loading delay
-  }, []);
-
-  // Save appointments to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("appointments", JSON.stringify(appointments));
-  }, [appointments]);
-
-  // Handle selecting a slot in the calendar
-  const handleSelectSlot = (slot) => {
-    setSelectedAppointment({
-      start: slot.start,
-      end: slot.end,
-      title: "New Appointment",
-    });
-    setIsEditing(false);
-    setShowModal(true);
-  };
-
-  // Handle selecting an existing appointment
-  const handleSelectEvent = (event) => {
-    setSelectedAppointment(event);
-    setIsEditing(true);
-    setShowModal(true);
-  };
-
-  // Handle saving or updating an appointment
-  const handleSaveAppointment = (appointment) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      if (isEditing) {
-        // Update existing appointment
-        const updatedAppointments = appointments.map((app) =>
-          app.id === appointment.id ? appointment : app
-        );
-        setAppointments(updatedAppointments);
-        toast.success("Appointment updated successfully!");
-      } else {
-        // Add new appointment
-        const newAppointment = { ...appointment, id: Date.now() };
-        setAppointments([...appointments, newAppointment]);
-        toast.success("Appointment created successfully!");
-      }
-      setIsLoading(false);
-      setShowModal(false);
-    }, 1000); // Simulate saving delay
-  };
-
-  // Handle deleting an appointment
-  const handleDeleteAppointment = (id) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const updatedAppointments = appointments.filter((app) => app.id !== id);
-      setAppointments(updatedAppointments);
-      toast.success("Appointment deleted successfully!");
-      setIsLoading(false);
-      setShowModal(false);
-    }, 1000); // Simulate deletion delay
-  };
-
-  // Handle changing the view (Month, Week, Day, Agenda)
-  const handleViewChange = (newView) => {
-    setView(newView);
-  };
-
-  // Handle navigating to today's date
-  const handleNavigateToToday = () => {
-    const today = new Date();
-    setSelectedAppointment(null);
-    setView("month"); // Reset to the default view
-  };
+    }, 1000);
+  }, [doctorName]);
 
   return (
     <div className="doctor-dashboard p-6 bg-gray-100 min-h-screen">
@@ -124,64 +58,17 @@ const DoctorDashboard = () => {
             startAccessor="start"
             endAccessor="end"
             selectable
-            onSelectSlot={handleSelectSlot}
-            onSelectEvent={handleSelectEvent}
-            view={view} // Set the current view
-            onView={handleViewChange} // Handle view changes
-            defaultView="month" // Default view when the calendar loads
-            views={["month", "week", "day", "agenda"]} // Enable all views
-            style={{ height: 500, margin: "0 auto" }} // Adjust height and center the calendar
+            view={view}
+            onView={setView}
+            defaultView="month"
+            views={['month', 'week', 'day', 'agenda']}
+            style={{ height: 500, margin: '0 auto' }}
             components={{
-              toolbar: (props) => (
-                <div className="rbc-toolbar">
-                  <span className="rbc-btn-group">
-                    <button onClick={() => handleNavigateToToday()}>Today</button>
-                    <button onClick={() => props.onNavigate("PREV")}>Back</button>
-                    <button onClick={() => props.onNavigate("NEXT")}>Next</button>
-                  </span>
-                  <span className="rbc-btn-group">
-                    <button
-                      className={view === "month" ? "rbc-active" : ""}
-                      onClick={() => handleViewChange("month")}
-                    >
-                      Month
-                    </button>
-                    <button
-                      className={view === "week" ? "rbc-active" : ""}
-                      onClick={() => handleViewChange("week")}
-                    >
-                      Week
-                    </button>
-                    <button
-                      className={view === "day" ? "rbc-active" : ""}
-                      onClick={() => handleViewChange("day")}
-                    >
-                      Day
-                    </button>
-                    <button
-                      className={view === "agenda" ? "rbc-active" : ""}
-                      onClick={() => handleViewChange("agenda")}
-                    >
-                      Agenda
-                    </button>
-                  </span>
-                </div>
-              ),
+              event: CustomEvent,
             }}
           />
         )}
       </div>
-
-      {showModal && (
-        <AppointmentModal
-          appointment={selectedAppointment}
-          onClose={() => setShowModal(false)}
-          onSave={handleSaveAppointment}
-          onDelete={handleDeleteAppointment}
-          isEditing={isEditing}
-          isLoading={isLoading}
-        />
-      )}
     </div>
   );
 };
